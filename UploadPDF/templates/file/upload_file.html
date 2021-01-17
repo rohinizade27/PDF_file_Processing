@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+<div class="row it">
+<div class="col-sm-offset-1 col-sm-10" id="one">
+<p>Please upload documents only in 'pdf' format.</p><br>
+<div class="row">
+  <div class="col-sm-offset-4 col-sm-4 form-group">
+    <h3 class="text-center">My Documents</h3>
+  </div><!--form-group-->
+</div><!--row-->
+    <div id="uploader">
+      <div class="row uploadDoc">
+        <div class="col-sm-3">
+            <form method="post" enctype="multipart/form-data" action="{% url 'upload_file'  %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                 <div class="text-center">
+                    <button class="btn btn-next"  id="submit" type="submit">
+                        <i class="fa fa-paper-plane"></i> Submit</button>
+                  </div>
+            </form>
+
+        </div><!-- col-3 -->
+
+        <div class="col-sm-4">
+                <span class="upl" >Total words in documents</span>
+               <input  type="text" class="form-control" name="" placeholder="Nothing to print..." value={{totalWords}}>
+        </div>
+        <div class="col-sm-4">
+                <span class="upl" >Total pages documents</span>
+               <input  type="text" class="form-control" name="" placeholder="Nothing to print..." value={{numPages}}>
+        </div>
+      </div><!--row-->
+        <div class="col-sm-4">
+                <span class="upl" >Selected PDF file is :</span>
+               <input  type="text" class="form-control" name="" placeholder="No file selected ..." value={{pdf}}>
+        </div>
+    </div><!--uploader-->
+
+
+
+
+
+
+</div><!--one-->
+</div><!-- row -->
+</div><!-- container -->
+
+{% endblock %}
+{% block javascript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'js/upload_file.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+  {% if uploaded == True %}
+       <script>
+       $(document).ready(function(){
+        swal({
+            title: "Uploaded!",
+            text: "File Uploaded successfully!",
+            icon: "success",
+            });
+        });
+       </script>
+      {% endif %}
+{% endblock javascript %}
